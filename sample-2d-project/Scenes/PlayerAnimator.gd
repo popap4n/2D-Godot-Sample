@@ -1,6 +1,7 @@
 class_name PlayerAnimator extends AnimatedSprite3D
 
-@export var controller : PlayerController
+@export var _controller : PlayerController
 
 func _enter_tree() -> void:
-	controller.InjectAnimator(self)
+	if (_controller):
+		_controller.InjectAnimator(self)
