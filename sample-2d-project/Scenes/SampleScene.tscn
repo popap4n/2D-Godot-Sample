@@ -1,0 +1,84 @@
+[gd_scene format=3 uid="uid://dll02efsm2vdk"]
+
+[ext_resource type="Script" uid="uid://bhx7gnacji7c8" path="res://Scripts/System/Managers/EventManager.gd" id="1_60ceu"]
+[ext_resource type="Texture2D" uid="uid://cuad1ikanqw6o" path="res://Sprites/idle.png" id="1_tvwqd"]
+[ext_resource type="Texture2D" uid="uid://d1uw04ruskj3r" path="res://Sprites/back-walk.png" id="2_8ve2m"]
+[ext_resource type="Script" uid="uid://dydjc7ac6nwnt" path="res://Scripts/Actors/PlayerController.gd" id="2_yn7lh"]
+[ext_resource type="Texture2D" uid="uid://csvr23lctyxgd" path="res://Sprites/forward-walk.png" id="3_bdpsi"]
+[ext_resource type="Script" uid="uid://ck86eq0j78vvl" path="res://Scenes/PlayerAnimator.gd" id="6_3lawf"]
+
+[sub_resource type="Environment" id="Environment_51vuv"]
+background_mode = 1
+background_color = Color(0.07019999, 0.07119668, 0.13, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.07058824, 0.07058824, 0.12941177, 1)
+reflected_light_source = 1
+
+[sub_resource type="BoxMesh" id="BoxMesh_51vuv"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_51vuv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_tvwqd")
+}],
+"loop": 1,
+"name": &"Idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_8ve2m")
+}],
+"loop": 1,
+"name": &"Walk Back",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_bdpsi")
+}],
+"loop": 1,
+"name": &"Walk Forward",
+"speed": 5.0
+}]
+
+[node name="Scene Root" type="Node3D" unique_id=1499227385]
+
+[node name="Managers" type="Node" parent="." unique_id=1275602707]
+
+[node name="Event Manager" type="Node" parent="Managers" unique_id=1941841762]
+script = ExtResource("1_60ceu")
+
+[node name="Background Objects" type="Node" parent="." unique_id=2060282035]
+
+[node name="Environment Properties" type="WorldEnvironment" parent="Background Objects" unique_id=587136466]
+environment = SubResource("Environment_51vuv")
+
+[node name="Light" type="DirectionalLight3D" parent="Background Objects" unique_id=693147979]
+transform = Transform3D(1, 0, 0, 0, 0.043459356, 0.99905515, 0, -0.99905515, 0.043459356, 0, 0, 0)
+light_color = Color(0.71999997, 0.7226667, 0.8, 1)
+light_specular = 0.0
+
+[node name="Camera" type="Camera3D" parent="Background Objects" unique_id=1628986912]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 2)
+
+[node name="Platform Root" type="Node3D" parent="." unique_id=1416001289]
+
+[node name="Platform Mesh" type="MeshInstance3D" parent="Platform Root" unique_id=53188652]
+transform = Transform3D(10, 0, 0, 0, 1, 0, 0, 0, 2, 0, -0.5, 0)
+mesh = SubResource("BoxMesh_51vuv")
+
+[node name="Player Root" type="Node3D" parent="." unique_id=1172481187]
+script = ExtResource("2_yn7lh")
+ForwardWalkSpeed = 1.25
+BackWalkSpeed = 0.75
+
+[node name="Player Sprite" type="AnimatedSprite3D" parent="Player Root" unique_id=936485251 node_paths=PackedStringArray("controller")]
+offset = Vector2(0, 44)
+double_sided = false
+texture_filter = 0
+sprite_frames = SubResource("SpriteFrames_51vuv")
+animation = &"Idle"
+script = ExtResource("6_3lawf")
+controller = NodePath("..")
