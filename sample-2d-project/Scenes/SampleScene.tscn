@@ -73,6 +73,8 @@ mesh = SubResource("BoxMesh_51vuv")
 script = ExtResource("2_yn7lh")
 ForwardWalkSpeed = 1.25
 BackWalkSpeed = 0.75
+IdleColor = Color(0.15910001, 0.16361506, 0.43, 1)
+WalkColor = Color(0.2664, 0.34955996, 0.72, 1)
 
 [node name="Player Sprite" type="AnimatedSprite3D" parent="Player Root" unique_id=936485251 node_paths=PackedStringArray("_controller")]
 offset = Vector2(0, 44)

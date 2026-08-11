@@ -2,6 +2,8 @@ class_name PlayerController extends Node3D
 
 @export var ForwardWalkSpeed : float	= 1.0
 @export var BackWalkSpeed : float		= 1.0
+@export var IdleColor : Color			= Color.WHITE
+@export var WalkColor : Color			= Color.WHITE
 
 var _event_manager	: EventManager
 var _animator		: AnimatedSprite3D
@@ -25,13 +27,16 @@ func _physics_process(delta : float) -> void:
 	if (move_axis > 0.0):
 		if (_animator and _animator.animation != "Walk Forward"):
 			_animator.play("Walk Forward")
+			_animator.modulate = WalkColor
 		speed = ForwardWalkSpeed
 	elif (move_axis < 0.0):
 		if (_animator and _animator.animation != "Walk Back"):
 			_animator.play("Walk Back")
+			_animator.modulate = WalkColor
 		speed = BackWalkSpeed
 	elif (_animator and _animator.animation != "Idle"):
 		_animator.play("Idle")
+		_animator.modulate = IdleColor
 		
 	var translate_vector = speed * Vector3(move_axis, 0.0, 0.0) * delta
 	translate(translate_vector)
@@ -39,3 +44,6 @@ func _physics_process(delta : float) -> void:
 func _ready() -> void:
 	_event_manager = Singleton.Get(EventManager)
 	_event_manager.OnMoveEvent.connect(OnMove)
+	
+	if (_animator):
+		_animator.modulate = IdleColor
