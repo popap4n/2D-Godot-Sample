@@ -1,4 +1,4 @@
-class_name PlayerAnimator extends AnimatedSprite3D
+class_name AnimatorInjector extends AnimatedSprite3D
 
 @export var _controller : PlayerController
 

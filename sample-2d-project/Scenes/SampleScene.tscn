@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://d1uw04ruskj3r" path="res://Sprites/back-walk.png" id="2_8ve2m"]
 [ext_resource type="Script" uid="uid://dydjc7ac6nwnt" path="res://Scripts/Actors/PlayerController.gd" id="2_yn7lh"]
 [ext_resource type="Texture2D" uid="uid://csvr23lctyxgd" path="res://Sprites/forward-walk.png" id="3_bdpsi"]
-[ext_resource type="Script" uid="uid://ck86eq0j78vvl" path="res://Scenes/PlayerAnimator.gd" id="6_3lawf"]
+[ext_resource type="Script" uid="uid://ck86eq0j78vvl" path="res://Scripts/Actors/AnimatorInjector.gd" id="6_3lawf"]
 
 [sub_resource type="Environment" id="Environment_51vuv"]
 background_mode = 1
@@ -74,11 +74,11 @@ script = ExtResource("2_yn7lh")
 ForwardWalkSpeed = 1.25
 BackWalkSpeed = 0.75
 
-[node name="Player Sprite" type="AnimatedSprite3D" parent="Player Root" unique_id=936485251 node_paths=PackedStringArray("controller")]
+[node name="Player Sprite" type="AnimatedSprite3D" parent="Player Root" unique_id=936485251 node_paths=PackedStringArray("_controller")]
 offset = Vector2(0, 44)
 double_sided = false
 texture_filter = 0
 sprite_frames = SubResource("SpriteFrames_51vuv")
 animation = &"Idle"
 script = ExtResource("6_3lawf")
-controller = NodePath("..")
+_controller = NodePath("..")
