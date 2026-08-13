@@ -1,14 +1,18 @@
 [gd_scene format=3 uid="uid://dll02efsm2vdk"]
 
 [ext_resource type="Script" uid="uid://xtl47evo4glw" path="res://Scripts/System/Managers/EventManager.gd" id="1_60ceu"]
-[ext_resource type="Texture2D" uid="uid://cuad1ikanqw6o" path="res://Sprites/idle.png" id="1_tvwqd"]
-[ext_resource type="Texture2D" uid="uid://d1uw04ruskj3r" path="res://Sprites/back-walk.png" id="2_8ve2m"]
 [ext_resource type="Script" uid="uid://ip7uoeyigs5g" path="res://Scripts/Actors/Controllers/PlayerController.gd" id="2_yn7lh"]
-[ext_resource type="Texture2D" uid="uid://csvr23lctyxgd" path="res://Sprites/forward-walk.png" id="3_bdpsi"]
+[ext_resource type="Texture2D" uid="uid://bqvap74wr0kv2" path="res://Sprites/Placeholders/idle-00.png" id="3_yn7lh"]
+[ext_resource type="Texture2D" uid="uid://e8x07wjcnr38" path="res://Sprites/Placeholders/idle-01.png" id="4_3lawf"]
+[ext_resource type="Texture2D" uid="uid://637oly13lsl5" path="res://Sprites/Placeholders/walk-00.png" id="5_77ij0"]
+[ext_resource type="Texture2D" uid="uid://e41qswc3qa1" path="res://Sprites/Placeholders/back-00.png" id="5_nx34h"]
+[ext_resource type="Script" uid="uid://cjl4tcwo2t3og" path="res://Scripts/Actors/AnimatorInjection.gd" id="6_3lawf"]
+[ext_resource type="Texture2D" uid="uid://q4v4smrt7qjb" path="res://Sprites/Placeholders/walk-01.png" id="6_88hyy"]
+[ext_resource type="Texture2D" uid="uid://cbfwymps68rhh" path="res://Sprites/Placeholders/back-01.png" id="6_cgbhk"]
 
 [sub_resource type="Environment" id="Environment_51vuv"]
 background_mode = 1
-background_color = Color(0.07019999, 0.07119668, 0.13, 1)
+background_color = Color(0.07058824, 0.07058824, 0.12941177, 1)
 ambient_light_source = 2
 ambient_light_color = Color(0.07058824, 0.07058824, 0.12941177, 1)
 reflected_light_source = 1
@@ -18,28 +22,37 @@ reflected_light_source = 1
 [sub_resource type="SpriteFrames" id="SpriteFrames_51vuv"]
 animations = [{
 "frames": [{
-"duration": 1.0,
-"texture": ExtResource("1_tvwqd")
+"duration": 5.0,
+"texture": ExtResource("3_yn7lh")
+}, {
+"duration": 5.0,
+"texture": ExtResource("4_3lawf")
 }],
 "loop": 1,
 "name": &"Idle",
-"speed": 5.0
+"speed": 10.0
 }, {
 "frames": [{
-"duration": 1.0,
-"texture": ExtResource("2_8ve2m")
+"duration": 3.5,
+"texture": ExtResource("5_nx34h")
+}, {
+"duration": 4.2,
+"texture": ExtResource("6_cgbhk")
 }],
 "loop": 1,
 "name": &"Walk Back",
-"speed": 5.0
+"speed": 10.0
 }, {
 "frames": [{
-"duration": 1.0,
-"texture": ExtResource("3_bdpsi")
+"duration": 3.5,
+"texture": ExtResource("5_77ij0")
+}, {
+"duration": 4.2,
+"texture": ExtResource("6_88hyy")
 }],
 "loop": 1,
 "name": &"Walk Forward",
-"speed": 5.0
+"speed": 10.0
 }]
 
 [node name="Scene Root" type="Node3D" unique_id=1499227385]
@@ -70,10 +83,15 @@ mesh = SubResource("BoxMesh_51vuv")
 
 [node name="Player Root" type="Node3D" parent="." unique_id=1172481187]
 script = ExtResource("2_yn7lh")
+forward_walk_speed = 1.2
+backward_walk_speed = 0.8
 
-[node name="Player Sprite" type="AnimatedSprite3D" parent="Player Root" unique_id=936485251]
+[node name="Player Sprite" type="AnimatedSprite3D" parent="Player Root" unique_id=936485251 node_paths=PackedStringArray("_controller")]
 offset = Vector2(0, 44)
+modulate = Color(0.34117648, 0.34901962, 0.5019608, 1)
 double_sided = false
 texture_filter = 0
 sprite_frames = SubResource("SpriteFrames_51vuv")
-animation = &"Idle"
+animation = &"Walk Back"
+script = ExtResource("6_3lawf")
+_controller = NodePath("..")
