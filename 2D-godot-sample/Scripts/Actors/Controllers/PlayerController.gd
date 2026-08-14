@@ -12,7 +12,7 @@ var _animator:		AnimatedSprite3D
 
 @onready var _input_vector := Vector2.ZERO
 
-
+#region Lifecycle Methods
 func _physics_process(delta: float) -> void:
 	_state_machine.update(delta)
 
@@ -31,7 +31,7 @@ func _ready() -> void:
 
 func _enter_tree() -> void:
 	return
-
+#endregion
 
 func at(previous_state: State, next_state: State, condition: Predicate) -> void:
 	_state_machine.add_transition(previous_state, next_state, condition)
