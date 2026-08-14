@@ -15,11 +15,12 @@ func on_enter() -> void:
 func on_update(delta: float) -> void:
 	_controller.handle_movement(delta)
 	
-	_input_vector = _controller.get_input_vector()
-	if _input_vector.x > 0.0:
-		_animator.play("Walk Forward")
-	elif _input_vector.x < 0.0:
-		_animator.play("Walk Back")
+	if _input_vector != _controller.get_input_vector():
+		_input_vector = _controller.get_input_vector()
+		if _input_vector.x > 0.0:
+			_animator.play("Walk Forward")
+		elif _input_vector.x < 0.0:
+			_animator.play("Walk Back")
 
 
 func on_exit() -> void:

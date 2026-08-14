@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://xtl47evo4glw" path="res://Scripts/System/Managers/EventManager.gd" id="1_60ceu"]
 [ext_resource type="Script" uid="uid://ip7uoeyigs5g" path="res://Scripts/Actors/Controllers/PlayerController.gd" id="2_yn7lh"]
+[ext_resource type="Texture2D" uid="uid://dq5t286msx4jm" path="res://Sprites/Placeholders/crouch-00.png" id="3_cgbhk"]
 [ext_resource type="Texture2D" uid="uid://bqvap74wr0kv2" path="res://Sprites/Placeholders/idle-00.png" id="3_yn7lh"]
 [ext_resource type="Texture2D" uid="uid://e8x07wjcnr38" path="res://Sprites/Placeholders/idle-01.png" id="4_3lawf"]
 [ext_resource type="Texture2D" uid="uid://637oly13lsl5" path="res://Sprites/Placeholders/walk-00.png" id="5_77ij0"]
@@ -21,6 +22,14 @@ reflected_light_source = 1
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_51vuv"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_cgbhk")
+}],
+"loop": 1,
+"name": &"Crouch",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 5.0,
 "texture": ExtResource("3_yn7lh")
@@ -92,6 +101,6 @@ modulate = Color(0.34117648, 0.34901962, 0.5019608, 1)
 double_sided = false
 texture_filter = 0
 sprite_frames = SubResource("SpriteFrames_51vuv")
-animation = &"Walk Back"
+animation = &"Crouch"
 script = ExtResource("6_3lawf")
 _controller = NodePath("..")

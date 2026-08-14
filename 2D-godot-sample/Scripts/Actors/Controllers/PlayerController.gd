@@ -6,48 +6,40 @@ extends Node3D
 
 var _event_manager:	EventManager
 var _state_machine:	StateMachine
-var _idle_state:	IdleState
-var _move_state:	MoveState
+var _idle:			IdleState
+var _move:			MoveState
+var _crouch:		CrouchState
 var _animator:		AnimatedSprite3D
 
-@onready var _input_vector := Vector2.ZERO
+@onready var _input_vector	:= Vector2.ZERO
 
 #region Lifecycle Methods
-func _physics_process(delta: float) -> void:
-	_state_machine.update(delta)
-
 
 func _ready() -> void:
 	_event_manager = Singleton.get_instance(EventManager)
-	_event_manager.move_invoked.connect(set_input_vector)
+	if _event_manager:
+		_event_manager.move_invoked.connect(set_input_vector)
 	
-	_idle_state = IdleState.new(self, _animator)
-	_move_state = MoveState.new(self, _animator)
-	_state_machine = StateMachine.new(_idle_state)
+	_idle = IdleState.new(self, _animator)
+	_move = MoveState.new(self, _animator)
+	_crouch = CrouchState.new(self, _animator)
+	_state_machine = StateMachine.new(_idle)
 	
-	at(_idle_state, _move_state, FuncPredicate.new(func() -> bool: return is_moving()))
-	at(_move_state, _idle_state, FuncPredicate.new(func() -> bool: return !is_moving()))
+	at(_idle, _move, FuncPredicate.new(func() -> bool: return is_moving() and !is_crouching()))
+	at(_idle, _crouch, FuncPredicate.new(func() -> bool: return is_crouching()))
+	
+	at(_move, _idle, FuncPredicate.new(func() -> bool: return !is_moving() and !is_crouching()))
+	at(_move, _crouch, FuncPredicate.new(func() -> bool: return is_crouching()))
+	
+	at(_crouch, _idle, FuncPredicate.new(func() -> bool: return !is_crouching() and !is_moving()))
+	at(_crouch, _move, FuncPredicate.new(func() -> bool: return !is_crouching() and is_moving()))
 
 
-func _enter_tree() -> void:
-	return
+func _physics_process(delta: float) -> void:
+	_state_machine.update(delta)
+
 #endregion
-
-func at(previous_state: State, next_state: State, condition: Predicate) -> void:
-	_state_machine.add_transition(previous_state, next_state, condition)
-
-
-func is_moving() -> bool:
-	return _input_vector != Vector2.ZERO
-
-
-func set_input_vector(new_input_vector: Vector2) -> void:
-	_input_vector = new_input_vector
-
-
-func get_input_vector() -> Vector2:
-	return _input_vector
-
+#region Public Methods
 
 func handle_movement(delta: float) -> void:
 	var move_vector := Vector3(_input_vector.x, 0.0, 0.0)
@@ -62,5 +54,28 @@ func handle_movement(delta: float) -> void:
 	translate(translate_vector)
 
 
+func at(previous_state: State, next_state: State, condition: Predicate) -> void:
+	_state_machine.add_transition(previous_state, next_state, condition)
+
+
+func is_moving() -> bool:
+	return _input_vector != Vector2.ZERO
+
+
+func is_crouching() -> bool:
+	print(_input_vector.y)
+	return _input_vector.y < 0.0
+
+
+func set_input_vector(new_input_vector: Vector2) -> void:
+	_input_vector = new_input_vector
+
+
+func get_input_vector() -> Vector2:
+	return _input_vector
+
+
 func inject_animator(new_animator: AnimatedSprite3D) -> void:
 	_animator = new_animator
+
+#endregion
